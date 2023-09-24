@@ -1,4 +1,8 @@
-#Quick find algorithm
+# Quick find algorithm
+# Caution: Algorithm with qaudratic time complexity. 
+#          Does not scale with computer performance and is to slow for large number of complements. 
+
+import unittest
 
 class QuickFindUF:
 
@@ -20,16 +24,27 @@ class QuickFindUF:
        for i in range(len(self.idArray)):
            if self.idArray[i] == pid: self.idArray[i] = qid 
 
-# Creat an class instance
-quickFind = QuickFindUF(10)
-print(quickFind.idArray)
-# Should show connected false
-print(quickFind.isConnected(3, 4))
 
-quickFind.union(3, 4)
-quickFind.union(3, 9)
-# Should show connected true
-print(quickFind.isConnected(3, 4))
-print(quickFind.idArray)
-# Should show connected true
-print(quickFind.isConnected(3, 9))
+
+# Unit test implementation 
+class QuickFindTestCases(unittest.TestCase):
+    def test_initialization_shouldInitializeCorrectly(self):
+        quickFind = QuickFindUF(10)
+        self.assertEqual(quickFind.idArray,list(range(10)))
+        
+    def test_isConnected_shouldReturnFalse(self):
+        quickFind = QuickFindUF(10)
+        self.assertFalse(quickFind.isConnected(3,4))
+   
+    def test_isConnected_shouldReturnTrue(self):
+        quickFind = QuickFindUF(10)
+        quickFind.union(3, 4)
+        self.assertTrue(quickFind.isConnected(3,4))
+        
+    def test_isConnected_shouldReturnTrueOnEntity(self):
+        quickFind = QuickFindUF(10)    
+        quickFind.union(3, 4) # connect 3 and 4
+        quickFind.union(4, 6) # connect 4 and 6
+        self.assertTrue(quickFind.isConnected(3, 6))
+
+unittest.main()
